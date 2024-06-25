@@ -12,11 +12,14 @@ import { setLaunchListValues, clearHomePage } from "../../services/home";
 import SearchComponent from "../Search";
 import "./home.css";
 import { cloneDeep } from "lodash";
+import DropdownComponent from "../Dropdown";
 
 const Home = (props) => {
   const [render, setRender] = useState(false);
   const [launchList, setLaunchList] = useState([]);
   const [pageLoader, setPageLoader] = useState(false);
+  const [resetFilters, setResetFilters] = useState(false);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -30,23 +33,22 @@ const Home = (props) => {
 
   useEffect(() => {
     if (render) {
-      const fetchList = async () => {
-        try {
-          setPageLoader(true);
-          let response = await axios.get(
-            "https://api.spacexdata.com/v3/launches"
-          );
-          setLaunchList(response?.data);
-          props.setLaunchListValues(cloneDeep(response?.data));
-          setPageLoader(false);
-        } catch (e) {
-          console.log(e);
-          setPageLoader(false);
-        }
-      };
       fetchList();
     }
   }, [render]);
+
+  const fetchList = async () => {
+    try {
+      setPageLoader(true);
+      let response = await axios.get("https://api.spacexdata.com/v3/launches");
+      setLaunchList(response?.data);
+      props.setLaunchListValues(cloneDeep(response?.data));
+      setPageLoader(false);
+    } catch (e) {
+      console.log(e);
+      setPageLoader(false);
+    }
+  };
 
   const logout = () => {
     props.setLoginStatus(false);
@@ -65,6 +67,29 @@ const Home = (props) => {
     }
   };
 
+  const onChangeValueYear = async (value) => {
+    try {
+      setResetFilters(false);
+      setPageLoader(true);
+      let response = await axios.get("https://api.spacexdata.com/v3/launches", {
+        params: {
+          launch_year: value,
+        },
+      });
+      setLaunchList(response?.data);
+      props.setLaunchListValues(cloneDeep(response?.data));
+      setPageLoader(false);
+    } catch (e) {
+      console.log(e);
+      setPageLoader(false);
+    }
+  };
+
+  const resetFilterValues = () => {
+    fetchList();
+    setResetFilters(true);
+  };
+
   return (
     <div>
       <AppBar position="static">
@@ -78,7 +103,26 @@ const Home = (props) => {
       </AppBar>
       {render && (
         <>
-          <SearchComponent onChangeValue={onChangeValue} />
+          <div className="search-bar-container">
+            <SearchComponent onChangeValue={onChangeValue} />
+            <div className="search-bar-container">
+              <div className="button-margin">
+                <DropdownComponent
+                  options={launchList}
+                  onChangeValue={onChangeValueYear}
+                  resetClicked={resetFilters}
+                />
+              </div>
+
+              <Button
+                variant="outlined"
+                color="error"
+                onClick={resetFilterValues}
+              >
+                Reset Filters
+              </Button>
+            </div>
+          </div>
           {pageLoader ? (
             <div className="loader-container">
               <CircularProgress />

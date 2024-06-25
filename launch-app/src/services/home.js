@@ -10,7 +10,7 @@ export const homeService = createSlice({
       state.launchListValues = action.payload;
     },
     clearHomePage: (state, _action) => {
-      state.launchListValues = [false];
+      state.launchListValues = [];
     },
   },
 });

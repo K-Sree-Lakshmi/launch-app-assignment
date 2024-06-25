@@ -9,7 +9,7 @@ export const signupService = createSlice({
     setUserDetails: (state, action) => {
       state.userDetails = action.payload;
     },
-    clearLoginDetails: (state, _action) => {
+    clearUserDetails: (state, _action) => {
       state.userDetails = [];
     },
   },
@@ -17,7 +17,7 @@ export const signupService = createSlice({
 
 export const {
     setUserDetails,
-    clearLoginDetails,
+    clearUserDetails,
 } = signupService.actions;
 
 export default signupService.reducer;

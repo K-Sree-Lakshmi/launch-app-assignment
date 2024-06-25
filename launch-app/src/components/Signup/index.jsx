@@ -29,19 +29,21 @@ const Signup = (props) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log(formData,"formData")
     // Add form submission logic here
     if (Object.keys(formData).some((item) => isEmpty(formData[item]))) {
       alert(MANDATORY_FIELD_MESSAGE);
-    } else if (formData.password !== formData.confirmPassword) {
+    } else if (
+      formData.password.toLowerCase() !==
+      formData.confirmPassword.toLocaleLowerCase()
+    ) {
       alert(PASSWORD_VALIDATION_MESSAGE);
     } else {
       if (props.userDetails?.length === 0) {
-        props.setUserDetails(formData);
+        props.setUserDetails([formData]);
         navigate(LOGIN);
       } else {
-        let userEmails = props.userDetails.filter((item) => item.email);
-        if (userEmails.incudes(formData.email)) {
+        let userEmails = props.userDetails.map((item) => item.email);
+        if (userEmails.includes(formData.email)) {
           alert(EXISTING_USER_VALIDATION_MESSAGE);
         } else {
           props.setUserDetails([...props.userDetails, formData]);
@@ -109,7 +111,6 @@ const Signup = (props) => {
 };
 
 const mapStateToProps = (store) => {
-  console.log(store, "store");
   const { signupReducer } = store;
   return {
     userDetails: signupReducer.userDetails,

@@ -20,6 +20,12 @@ const Login = (props) => {
     } else {
       if (isEmpty(props.userDetails)) {
         navigate(SIGNUP);
+      } else if (
+        props.userDetails.some(
+          (obj) => obj.password.toLowerCase() !== password.toLowerCase()
+        )
+      ) {
+        navigate(SIGNUP);
       } else {
         // if its email is present redirect to home
         props.setLoginStatus(true);

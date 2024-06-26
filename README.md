@@ -14,5 +14,5 @@ When we navigate to localhost:3000 for the first time - login page is displayed.
 If the user has not signed up, when he/she tries to login they are navigated to sign up page.
 If the user record exists they land on home page.
 
-On home page we have the list API, search feature to filter out matching records and a drop down based on lauch year.
+On home page we have the list API, search feature to filter out matching records and a drop down based on lauch year and launch status
 

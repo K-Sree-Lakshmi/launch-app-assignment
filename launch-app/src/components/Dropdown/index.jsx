@@ -40,7 +40,7 @@ const DropdownComponent = (props) => {
     <div>
       <select value={selectedValue} onChange={handleChangeYears} className="button-margin">
         <option value="" disabled>
-          Select Launch Year{" "}
+          Launch Year{" "}
         </option>
         {listYears &&
           listYears.map((item) => {
@@ -54,7 +54,7 @@ const DropdownComponent = (props) => {
 
       <select value={selectedValueStatus} onChange={handleChangeStatus}>
         <option value="" disabled>
-          Select Launch Status{" "}
+          Launch Status{" "}
         </option>
         {listStatus &&
           listStatus.map((item) => {

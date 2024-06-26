@@ -20,17 +20,20 @@ const Login = (props) => {
     } else {
       if (isEmpty(props.userDetails)) {
         navigate(SIGNUP);
-      } else if (
-        // if the entered email is not present in the user's list redirect to signup
-        props.userDetails.every(
-          (obj) => obj.email.toLowerCase() !== email.toLowerCase()
-        )
-      ) {
-        navigate(SIGNUP);
       } else {
-        // if its email is present redirect to home
-        props.setLoginStatus(true);
-        navigate(HOME);
+        let index = props.userDetails.findIndex(
+          (obj) => obj.email.toLowerCase() === email.toLowerCase()
+        );
+        if (
+          // if the entered email is not present in the user's list redirect to signup
+          index === -1
+        ) {
+          navigate(SIGNUP);
+        } else {
+          // if its email is present redirect to home
+          props.setLoginStatus(true);
+          navigate(HOME);
+        }
       }
     }
   };

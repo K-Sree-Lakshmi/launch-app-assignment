@@ -1,0 +1,17 @@
+  .search-input {
+    width: 300px;
+    padding: 10px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .search-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .search-item {
+    margin: 5px 0;
+  }
+  

@@ -9,20 +9,21 @@ import { LOGIN_FIELD_VALIDATION_MESSAGE } from "../../constants/stringConstants"
 import { setLoginStatus } from "../../services/login";
 
 const Login = (props) => {
-  const [username, setUsername] = useState("");
+  const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    if (isEmpty(password) || isEmpty(username)) {
+    if (isEmpty(password) || isEmpty(email)) {
       alert(LOGIN_FIELD_VALIDATION_MESSAGE);
     } else {
       if (isEmpty(props.userDetails)) {
         navigate(SIGNUP);
       } else if (
-        props.userDetails.some(
-          (obj) => obj.password.toLowerCase() !== password.toLowerCase()
+        // if the entered email is not present in the user's list redirect to signup
+        props.userDetails.every(
+          (obj) => obj.email.toLowerCase() !== email.toLowerCase()
         )
       ) {
         navigate(SIGNUP);
@@ -54,10 +55,11 @@ const Login = (props) => {
         Login
       </Typography>
       <TextField
-        label="Username"
-        variant="outlined"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        label="Email"
+        name="email"
+        type="email"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
         fullWidth
         margin="normal"
       />

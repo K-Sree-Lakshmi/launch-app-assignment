@@ -73,7 +73,8 @@ const Home = (props) => {
       setPageLoader(true);
       let response = await axios.get("https://api.spacexdata.com/v3/launches", {
         params: {
-          launch_year: value,
+          launch_year: value?.year,
+          launch_success: value?.status ? value?.status.toLowerCase() : ""
         },
       });
       setLaunchList(response?.data);
